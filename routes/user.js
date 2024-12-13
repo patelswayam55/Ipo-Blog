@@ -41,13 +41,23 @@ router.post("/user/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    return res.status(400).send("Please fill in all fields");
+    return res.render("signup", {
+      error: "Please fill in all fields",
+    });
   }
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).send("Email already in use");
+      return res.render("signup", {
+        error: "Email already in use",
+      });
+    }
+    const existingUser1 = await User.findOne({ username });
+    if (existingUser1) {
+      return res.render("signup", {
+        error: "Username Alredy Taken!",
+      });
     }
 
     const newUser = new User({ username, email, password });
