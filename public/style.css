@@ -1,0 +1,36 @@
+/* Styling for profile container */
+.profile-container {
+  display: inline-block;
+  position: relative;
+  width: 35px;
+  height: 35px;
+}
+
+/* Styling for the image */
+.profile-image {
+  transition: opacity 0.3s ease;
+}
+
+/* Username styling (initially hidden) */
+.profile-username {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  top: 118%;
+  left: 50%;
+  transform: translate(-50%, 10px);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* Show username on hover */
+.profile-container:hover .profile-image {
+  opacity: 0.3;
+}
+
+.profile-container:hover .profile-username {
+  display: inline;
+}

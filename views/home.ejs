@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="/images/blogger-brands-solid.svg">
+    <title>
+        Blogify</title>
+    <link rel="stylesheet" href="/style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class=" ">
+    <!-- Include the navbar -->
+    <%- include('partials/navbar') %>
+        <div class="container mt-4">
+            <!-- Daily Quote Section -->
+            <div class="daily-quote p-4 bg-light rounded border shadow-lg mb-4 text-center">
+                <blockquote class="blockquote">
+                    <p class="mb-2 text-dark font-italic">"<%= dailyQuote.text %>"</p>
+                    <footer class="">
+                        By -
+                        <span class="text-dark">
+                            <%= dailyQuote.author %>
+                        </span>
+                    </footer>
+                </blockquote>
+            </div>
+
+            <!-- Blog Section -->
+            <div class="container">
+                <h2 class="mb-4">All Blogs</h2>
+                <div class="row">
+                    <% blogs.forEach(blog=> { %>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <% if (blog.image) { %>
+                                    <img src="/uploads/<%= blog.image %>" class="card-img-top" alt="<%= blog.title %>"
+                                        style="height:50%;">
+                                    <% } %>
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">
+                                                <%= blog.title %>
+                                            </h5>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    Created by <%= blog.createdBy.username %> on <%=
+                                                            blog.createdAt.toLocaleDateString() %>
+                                                </small>
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                                <div class="d-flex align-items-center gap">
+                                                    <i class="fas fa-heart text-danger me-2" id="likeIcon"
+                                                        data-id="<%= blog._id %>"></i>
+                                                    <span id="likeCount mx-1" style="margin-right:5px;">
+                                                        <%= blog.likeCount || 0 %>
+                                                    </span> Likes
+                                                </div>
+                                                <a href="/blogs/<%= blog._id %>" target="_blank"
+                                                    class="btn btn-dark btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS and Popper.js CDN -->
+        <%- include('partials/scriptjs') %>
+</body>
+
+</html>
