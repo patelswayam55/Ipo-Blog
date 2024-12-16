@@ -88,7 +88,13 @@
                                     <% if (ipo.status==='open' ) { %>
                                         <span class="badge badge-status badge-live">Live</span>
                                         <% } %>
-                                            <span class="mb-0"><strong>Issue Size:-</strong> ₹<%= ipo.issueSize %>
+                                            <span class="mb-0">
+                                                <strong>Issue Size:</strong>
+                                                <% if (ipo && ipo.issueSize) { %>
+                                                    ₹<%= ipo.issueSize %>
+                                                        <% } else { %>
+                                                            Not Available
+                                                            <% } %>
                                             </span>
                                 </div>
                             </div>
@@ -97,16 +103,20 @@
                                 <p class="mb-0"><strong>Offer Price:</strong> ₹<%= ipo.priceRange %>
                                 </p>
                                 <p class="mb-0"><strong>Lot Size:</strong>
-                                    <%= ipo.minQty %>
+                                    <%= ipo?.minQty || "Not Available" %>
                                 </p>
-                                <p class="mb-0"><strong>Min Amount:</strong> ₹<%= ipo.minAmount %>
+                                <p class="mb-0"><strong>Min Amount:</strong>
+                                    <% if (ipo && ipo.minAmount) { %>
+                                        ₹<%= ipo.minAmount %>
+                                            <% } else { %>
+                                                Not Available
+                                                <% } %>
                                 </p>
                             </div>
                             <!-- Actions -->
                             <div class="col-auto">
-                                <a href="<%= ipo.infoUrl %>" target="_blank" class="btn btn-sm btn-view me-2">View</a>
-                                <a href="<%= ipo.prospectusUrl %>" target="_blank"
-                                    class="btn btn-sm btn-apply">Apply</a>
+                                <!-- <a href="<%= ipo.infoUrl %>" target="_blank" class="btn btn-sm btn-view me-2">View</a> -->
+                                <a href="<%= ipo.infoUrl %>" target="_blank" class="btn btn-sm btn-apply">Apply</a>
                             </div>
                         </div>
                     </div>
@@ -136,8 +146,14 @@
                                                     <% if (ipo.status==='open' ) { %>
                                                         <span class="badge badge-status badge-live">Live</span>
                                                         <% } %>
-                                                            <span class="mb-0"><strong>Issue Size:-</strong> ₹<%=
-                                                                    ipo.issueSize %></span>
+                                                            <span class="mb-0">
+                                                                <strong>Issue Size:</strong>
+                                                                <% if (ipo && ipo.issueSize) { %>
+                                                                    ₹<%= ipo.issueSize %>
+                                                                        <% } else { %>
+                                                                            Not Available
+                                                                            <% } %>
+                                                            </span>
                                                 </div>
                                             </div>
                                             <!-- IPO Details -->
@@ -145,16 +161,19 @@
                                                 <p class="mb-0"><strong>Offer Price:</strong> ₹<%= ipo.priceRange %>
                                                 </p>
                                                 <p class="mb-0"><strong>Lot Size:</strong>
-                                                    <%= ipo.minQty %>
+                                                    <%= ipo?.minQty || "Not Available" %>
                                                 </p>
-                                                <p class="mb-0"><strong>Min Amount:</strong> ₹<%= ipo.minAmount %>
+                                                <p class="mb-0"><strong>Min Amount:</strong>
+                                                    <% if (ipo && ipo.minAmount) { %>
+                                                        ₹<%= ipo.minAmount %>
+                                                            <% } else { %>
+                                                                Not Available
+                                                                <% } %>
                                                 </p>
                                             </div>
                                             <!-- Actions -->
                                             <div class="col-auto">
                                                 <a href="<%= ipo.infoUrl %>" target="_blank"
-                                                    class="btn btn-sm btn-view me-2">View</a>
-                                                <a href="<%= ipo.prospectusUrl %>" target="_blank"
                                                     class="btn btn-sm btn-apply">Apply</a>
                                             </div>
                                         </div>
