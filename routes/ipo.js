@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const Blog = require("../models/Blog");
 
 async function fetchIpoDetails() {
   try {
@@ -29,6 +30,43 @@ router.get("/ipo", async (req, res) => {
     user: req.user,
     ipos: ipo,
   });
+});
+
+router.put("/ipo/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Extract fields from request body
+    const updateData = {
+      lotSize: req.body.lotSize,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      listingDate: req.body.listingDate,
+      priceRange: req.body.priceRange,
+      type: req.body.type,
+      marketLot: req.body.marketLot,
+      totalIssueSize: req.body.totalIssueSize,
+      freshIssue: req.body.freshIssue,
+      offerForSale: req.body.offerForSale,
+      faceValue: req.body.faceValue,
+      applyLink: req.body.applyLink,
+      allotmentDate: req.body.allotmentDate,
+    };
+
+    // Update document
+    const updatedIpo = await Blog.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedIpo) {
+      return res.status(404).json({ message: "IPO not found" });
+    }
+
+    res.status(200).json(updatedIpo.title);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
 });
 
 module.exports = router;
