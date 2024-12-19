@@ -52,6 +52,14 @@ router.post("/add-blog", upload.single("image"), async (req, res) => {
   }
 });
 
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 router.get("/blogs/:id", async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id).populate(
@@ -61,6 +69,16 @@ router.get("/blogs/:id", async (req, res) => {
     if (!blog) {
       return res.status(404).send("Blog not found");
     }
+    const formattedBlog = {
+      ...blog._doc, // Use the blog's original data
+      startDateFormatted: formatDate(blog.startDate),
+      closeDateFormatted: formatDate(blog.endDate),
+      allotmentDateFormatted: formatDate(blog.allotmentDate),
+      listingDateFormatted: formatDate(blog.listingDate),
+      descriptionParagraphs: blog.description
+        .split(/\s*\n\s*|\s{4,}/) // Match newlines or 2+ spaces
+        .filter((paragraph) => paragraph.trim() !== ""),
+    };
 
     // Fetch other blogs excluding the current one
     const otherBlogs = await Blog.find({ _id: { $ne: blog._id } }).populate(
@@ -70,7 +88,7 @@ router.get("/blogs/:id", async (req, res) => {
 
     res.render("blogDetails", {
       user: req.user,
-      blog: blog,
+      blog: formattedBlog,
       otherBlogs: otherBlogs,
     });
   } catch (error) {
