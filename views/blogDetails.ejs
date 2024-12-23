@@ -63,7 +63,7 @@
                             style="height: 120px;">
                             <div>
                                 <% if (blog.image) { %>
-                                    <img src="/uploads/<%= blog.image %>" style="width: 80px; height: 80px;"
+                                    <img src="<%= blog.image %>" style="width: 80px; height: 80px;"
                                         alt="<%= blog.title %>">
                                     <% } %>
                             </div>
@@ -193,7 +193,7 @@
                             <a href="/blogs/<%= ipo._id %>"
                                 class="list-group-item list-group-item-action d-flex align-items-center">
                                 <% if (ipo.image) { %>
-                                    <img src="/uploads/<%= ipo.image %>" class="img-thumbnail me-3"
+                                    <img src="<%= ipo.image %>" class="img-thumbnail me-3"
                                         style="width: 80px; height: 80px;" alt="<%= ipo.title %>">
                                     <% } else { %>
                                         <img src="/images/default-thumbnail.jpg" class="img-thumbnail me-3"
