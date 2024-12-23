@@ -39,9 +39,11 @@ const blogSchema = new mongoose.Schema(
     offerForSale: { type: String },
     applyLink: { type: String },
     faceValue: { type: Number },
+    status: { type: String },
 
     likeCount: { type: Number, default: 0 },
   },
+
   { timestamps: true }
 );
 
