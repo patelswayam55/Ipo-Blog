@@ -33,15 +33,31 @@ async function fetchDailyQuote() {
   return dailyQuote;
 }
 
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
 // Modify the homepage function to fetch the quote once
 async function homepage(req, res) {
   try {
-    const blogs = await Blog.find().populate("createdBy", "username");
+    const ipos = await Blog.find().populate("createdBy", "username");
     const quote = await fetchDailyQuote(); // Only fetch the quote if it's a new day
+
+    const formattedIpos = ipos.map((ipo) => ({
+      ...ipo._doc, // Use the blog's original data
+      startDateFormatted: formatDate(ipo.startDate),
+      closeDateFormatted: formatDate(ipo.endDate),
+      allotmentDateFormatted: formatDate(ipo.allotmentDate),
+      listingDateFormatted: formatDate(ipo.listingDate),
+    }));
 
     res.render("home", {
       user: req.user,
-      blogs: blogs || null,
+      ipos: formattedIpos || null,
       dailyQuote: quote,
     });
   } catch (error) {
