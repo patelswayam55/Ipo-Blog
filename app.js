@@ -8,6 +8,8 @@ const cookieParser = require("cookie-parser");
 const authenticateJWT = require("./middlewares/auth");
 var cors = require("cors");
 const Ipo = require("./routes/ipo");
+const cron = require("node-cron");
+const { fetchGMPData } = require("./scraper");
 dotenv.config();
 
 const app = express();
@@ -34,6 +36,19 @@ app.use("/uploads", express.static("uploads"));
 app.use("/", authenticateJWT, userRouters);
 app.use("/", userBlog);
 app.use("/", Ipo);
+
+// Cron Job - Run every day at 9 PM
+cron.schedule(
+  "0 21 * * *",
+  async () => {
+    console.log("Running scraper at 9 PM...");
+    const targetUrl = process.env.Scraperurl;
+    await fetchGMPData(targetUrl);
+  },
+  {
+    timezone: "Asia/Kolkata",
+  }
+);
 
 const PORT = process.env.PORT;
 const a = `http://localhost:${PORT}`;
