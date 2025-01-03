@@ -51,6 +51,7 @@ router.put("/ipo/:id", async (req, res) => {
       faceValue: req.body.faceValue,
       applyLink: req.body.applyLink,
       allotmentDate: req.body.allotmentDate,
+      status: req.body.status,
     };
 
     // Update document
@@ -66,6 +67,16 @@ router.put("/ipo/:id", async (req, res) => {
     res.status(200).json(updatedIpo.title);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
+  }
+});
+
+//Open-Souce Api
+router.get("/ipodata", async (req, res) => {
+  try {
+    const ipos = await Blog.find().select("-description");
+    res.status(200).json(ipos);
+  } catch {
+    res.status(500).json({ message: "Server Error" });
   }
 });
 
