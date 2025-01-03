@@ -117,6 +117,7 @@
                                             </span>
                             </div>
                         </div>
+
                         <!-- IPO Details -->
                         <div class="col-auto text-end">
                             <p class="mb-0"><strong>Last Date:</strong>
@@ -125,8 +126,14 @@
                             </p>
                             <p class="mb-0"><strong>Offer Price:</strong> ₹<%= ipo.priceRange %>
                             </p>
-                            <p class="mb-0"><strong>Lot Size:</strong>
-                                <%= ipo.lotSize || "Not Available" %>
+                            <p class="mb-0">
+                                <strong>Exp. Premium:</strong>
+                                <span class="<%= ipo.gmpPrice < 0 ? 'text-danger' : 'text-success' %>">
+                                    <%= ipo.gmpPrice || "Not Available" %>
+                                </span>
+                                (<span class="<%= ipo.gmpGain < 0 ? 'text-danger' : 'text-success' %>">
+                                    <%= ipo.gmpGain || "Not Available" %>
+                                </span>)
                             </p>
 
                         </div>
