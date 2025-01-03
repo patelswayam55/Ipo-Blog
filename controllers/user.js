@@ -4,6 +4,7 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
+const Gmp = require("../models/Gmp");
 
 let dailyQuote = null;
 let lastFetchDate = null;
@@ -45,15 +46,27 @@ const formatDate = (date) => {
 async function homepage(req, res) {
   try {
     const ipos = await Blog.find().populate("createdBy", "username");
+
     const quote = await fetchDailyQuote(); // Only fetch the quote if it's a new day
 
-    const formattedIpos = ipos.map((ipo) => ({
-      ...ipo._doc, // Use the blog's original data
-      startDateFormatted: formatDate(ipo.startDate),
-      closeDateFormatted: formatDate(ipo.endDate),
-      allotmentDateFormatted: formatDate(ipo.allotmentDate),
-      listingDateFormatted: formatDate(ipo.listingDate),
-    }));
+    // Fetch GMP data and map by IPO
+    const gmpData = await Gmp.find().populate("ipo", "title");
+
+    const formattedIpos = ipos.map((ipo) => {
+      const matchingGmp = gmpData.find(
+        (gmp) => gmp.ipo.title === ipo.title // Match by title
+      );
+
+      return {
+        ...ipo._doc,
+        startDateFormatted: formatDate(ipo.startDate),
+        closeDateFormatted: formatDate(ipo.endDate),
+        allotmentDateFormatted: formatDate(ipo.allotmentDate),
+        listingDateFormatted: formatDate(ipo.listingDate),
+        gmpPrice: matchingGmp ? matchingGmp.gmpprice : "N/A",
+        gmpGain: matchingGmp ? matchingGmp.gain : "N/A",
+      };
+    });
 
     res.render("home", {
       user: req.user,
