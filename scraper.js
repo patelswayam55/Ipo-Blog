@@ -22,7 +22,7 @@ async function fetchGMPData(url) {
     });
 
     // Navigate to the target website
-    await page.goto(url, { waitUntil: "networkidle2" });
+    await page.goto(url, { timeout: 60000, waitUntil: "networkidle2" });
 
     // Extract table data (first table on the page)
     const gmpData = await page.evaluate(() => {
