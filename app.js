@@ -39,7 +39,7 @@ app.use("/", Ipo);
 
 // Cron Job - Run every day at 9 PM
 cron.schedule(
-  "22 15 * * *",
+  "0 21 * * *",
   async () => {
     console.log("Running scraper at 9 PM...");
     const targetUrl = process.env.Scraperurl;
